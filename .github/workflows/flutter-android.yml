@@ -46,11 +46,14 @@ jobs:
       working-directory: my_app
 
     - name: Build APK
-      run: flutter build apk --release
+      run: |
+        flutter build apk --release 2>&1
+        echo "Build completed. Checking output directory..."
+        ls -la build/app/outputs/flutter-apk/ || echo "Output directory not found"
       working-directory: my_app
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
         name: app-release-apk
-        path: build/app/outputs/flutter-apk/app-release.apk
+        path: my_app/build/app/outputs/flutter-apk/app-release.apk
